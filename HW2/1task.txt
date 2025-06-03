@@ -1,0 +1,10 @@
+Для реализации 1 задания выполнялись следующие команды в терминале Docker:
+
+1. docker run -d --name mynginx nginx
+2. docker exec -it mynginx bash
+3. cat /usr/share/nginx/html/index.html
+4. hostname => получили "c85a13063729"
+5. sed -i 's/Welcome to nginx!/Welcome from c85a13063729/' /usr/share/nginx/html/index.html 
+6. exit 
+7. docker cp mynginx:/usr/share/nginx/html/index.html /Users/taominkuan/Desktop/Docker/homeworks/HW1 
+=> получили "Successfully copied 2.56kB to /Users/taominkuan/Desktop/Docker/homeworks/HW1"

@@ -1,0 +1,65 @@
+1. Команда создания Security Group:
+aws ec2 create-security-group \
+  --group-name 281024-taominkuan-sg \
+  --description "Security Group for MySQL and HTTPS and SSH"
+
+2. Добавление inbound-правил:
+    MySQL (порт 3306):
+        aws ec2 authorize-security-group-ingress \
+            --group-id sg-001ee9570f87ac4d5 \
+            --protocol tcp \
+            --port 3306 \
+            --cidr 0.0.0.0/0 \
+            --tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Name,Value=mysql}]'
+
+    HTTPS (порт 443):
+        aws ec2 authorize-security-group-ingress \
+            --group-id sg-001ee9570f87ac4d5 \
+            --protocol tcp \
+            --port 443 \
+            --cidr 0.0.0.0/0 \
+            --tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Name,Value=https}]'
+
+
+ 3. Правило SSH (порт 22)
+ Добавлено вручную через AWS Console (UI):
+    Type: SSH
+    Port: 22
+    Source: My IP
+    Description: SSH My IP
+
+4. Результат describe-security-groups:
+[
+    [
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 3306,
+            "ToPort": 3306,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+                {
+                    "CidrIp": "0.0.0.0/0"
+                }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+        },
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+                {
+                    "CidrIp": "0.0.0.0/0"
+                }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+        }
+    ]
+]
+
+5. Удаление Security Group:
+aws ec2 delete-security-group \
+  --group-id sg-001ee9570f87ac4d5
